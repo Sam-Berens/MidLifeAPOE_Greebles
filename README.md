@@ -83,8 +83,8 @@ These script files contain functions that are invoked by other analysis scripts 
 
 These directories contain various output files derived from the analyses including plots and CSV files of model parameter estimates and inferential statistics. The plots are numbered in a way that is consistent with the published manuscript and supplementary information.
 
-- /_Model05/;
-- /_Model06/;
+- _Model05;
+- _Model06;
 - Figure2;
 - Figure3;
 - Figure4;
