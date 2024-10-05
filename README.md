@@ -10,8 +10,8 @@ Each analysis script will only ever include analyses of one outcome (dependent) 
 Within all analysis scripts, specific statistical models are identified by a string of characters composed of three substrings: “[type][number][coding]”, where:
 
 - “[type]” indicates whether a model is estimated via frequentist means ([type]=”freq”, sometimes abbreviated to “f”) or via Bayesian methods ([type]=”bayes”, sometimes abbreviated to “b”);
-- “[number]” refers to the model number and indicates the overall structure of fixed- and random-effects predators in the model (see section 2);
-- “[coding]” indicates how genotype information about different participants is encoded within the model’s fixed-effects predators (i.e., either as E4 ‘carrier status’, or E4 ‘haplotype’, see section 3);
+- “[number]” refers to the model number and indicates the overall structure of fixed- and random-effects predictors in the model (see section 2);
+- “[coding]” indicates how genotype information about different participants is encoded within the model’s fixed-effects predictors (i.e., either as E4 ‘carrier status’, or E4 ‘haplotype’, see section 3);
 
 # 1: Model type
 
@@ -25,7 +25,7 @@ Bayesian models and inferential statistics are estimated via the BRMS package in
 
 # 2: Model number
 
-All analyses may be identified by one of two model numbers: “05” and “06”. Models identified by these numbers may involve different outcome (dependent) variables, yet models with the same number will all have the same fixed- and random-effects predators (independent variables):
+All analyses may be identified by one of two model numbers: “05” and “06”. Models identified by these numbers may involve different outcome (dependent) variables, yet models with the same number will all have the same fixed- and random-effects predictors (independent variables):
 
 - “05”: y ~ 1 + (hAmbi * zAge * E4) + (1 | PpantId)
 - “06”: y ~  1 + (hAmbi * zAge * E4 * Female) + (1 | PpantId)
