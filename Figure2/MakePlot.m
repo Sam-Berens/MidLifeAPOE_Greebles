@@ -4,7 +4,7 @@ clc;
 rng(0);
 
 %% Read in the model estimates
-Estimates = readtable('Pc-05c_Conditions.csv');
+Estimates = readtable('Pc-05f_Conditions.csv');
 Estimates.Ambiguity = categorical(Estimates.Ambiguity);
 Estimates.Genotype = categorical(Estimates.Genotype);
 
