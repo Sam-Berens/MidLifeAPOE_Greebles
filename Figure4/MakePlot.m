@@ -60,7 +60,7 @@ for iPlt = 1:2 % 1==LowAmbi, 2==HigAmbi
         deltaX = (iGeno-1).*(xOffset) - xOffset;
         deltaX = deltaX + rand(sum(S),1).*(xJitter*2) - xJitter;
         scatter(SelectData.AgeN(S) + deltaX, SelectData.RT(S),5,'+',...
-            'MarkerEdgeColor','k','MarkerEdgeAlpha',0.2,'LineWidth',1);
+            'MarkerEdgeColor','r','MarkerEdgeAlpha',0.2,'LineWidth',1);
     end
     
     %% Appearnece
