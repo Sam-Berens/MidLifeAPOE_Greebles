@@ -26,14 +26,42 @@ set(hBar(1),'FaceColor',[0.2,0.4,0.8]);
 set(hBar(2),'FaceColor',[0.8,0.4,0.2]);
 hold on;
 
+%% Add the subject means
+RawData = GetRawData();
+xOffset = 0.285;
+xJitter = 0.09;
+
+x = dummyvar(RawData.Genotype)*([1;2;3]+0.143);
+rng(101);
+r = rand(numel(x),1);
+xx = [];
+yy = [];
+for iAmbi = 1:2
+    if iAmbi == 1
+        y = RawData.LowAmbiguity_accuracy./RawData.LowAmbiguity_n;
+        
+    else
+        y = RawData.HighAmbiguity_accuracy./RawData.HighAmbiguity_n;
+    end
+    deltaX = (iAmbi-1).*(xOffset) - xOffset;
+    deltaX = deltaX + r.*(xJitter*2) - xJitter;
+    scatter(x + deltaX, y,15,'+',...
+        'MarkerEdgeColor',[0.1,0.1,0.1],'MarkerEdgeAlpha',0.5,'LineWidth',1);
+    xx = [xx,x+deltaX];
+    yy = [yy,y];
+end
+for iPoint = 1:size(xx,1)
+    plot(xx(iPoint,:),yy(iPoint,:),':','Color','k');
+end
+
 %% Appearnece
 xticklabels(uGenotype);
 xlabel('Genotype','FontSize',18);
 ax = gca;
 ax.FontSize = 18;
-ylim([0.8,1]); %ylim([0,12]);
-yticks((8:0.5:10)./10);
+ylim([0.5,1]); %ylim([0,12]);
+yticks((5:1:10)./10);
 set(gca,'YMinorTick','Off');
 ylabel('Probability of a correct response','FontSize',18);
-legend({'Low ambiguity','High ambiguity'},'FontSize',15);
+legend({'Low ambiguity','High ambiguity'},'FontSize',15,'Location','bestoutside');
 box off;
