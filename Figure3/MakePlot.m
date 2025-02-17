@@ -4,21 +4,27 @@ clc;
 rng(0);
 
 %% Read in the model estimates
-Estimates = readtable('Pc-05f_Conditions.csv');
+Estimates = readtable('Rt-05l_Conditions.csv');
 Estimates.Ambiguity = categorical(Estimates.Condition);
 Estimates.Genotype = categorical(Estimates.Genotype);
 Estimates.Age = categorical(Estimates.Age);
 
-%% Get the Raw data
-[RawData] = GetRawData();
-xOffset = 0.222;
-xJitter = 0.07;
-uGenotype = unique(RawData.Genotype);
-x = dummyvar(RawData.Age)*(1:4)';
-rng(0);
+%% Read in the raw data to plot
+SelectData = readtable('Data.csv');
+SelectData = SelectData(SelectData.Correct==1,:);
+SelectData.PID = categorical(SelectData.PID);
+SelectData.Ambiguity = categorical(SelectData.Ambiguity);
+SelectData.Genotype = categorical(SelectData.Genotype);
+SelectData.Age = categorical(SelectData.Age);
+SelectData.AgeN = double(SelectData.Age);
+SelectData = [SelectData(:,1:2),SelectData(:,5),SelectData(:,4),SelectData(:,7:8),SelectData(:,3)];
+SelectData.RT = SelectData.RT./1000;
 
 %%
 figure('units','normalized','outerposition',[0 0 1 1]);
+uGenotype = unique(SelectData.Genotype);
+xOffset = 0.22;
+xJitter = 0.06;
 FH = [NaN,NaN];
 for iPlt = 1:2 % 1==LowAmbi, 2==HigAmbi
     FH(iPlt) = subplot(1,2,iPlt);
@@ -42,31 +48,33 @@ for iPlt = 1:2 % 1==LowAmbi, 2==HigAmbi
     set(hBar(3),'FaceColor',[0.8,0.4,0.2]);
     hold on;
     
-    %% Plot the raw data
+    %% Raw data
     if iPlt == 1
-        y = RawData.LowAmbiguity_accuracy./RawData.LowAmbiguity_n;
+        Sambi = SelectData.Ambiguity==categorical({'L'});
     else
-        y = RawData.HighAmbiguity_accuracy./RawData.HighAmbiguity_n;
+        Sambi = SelectData.Ambiguity==categorical({'H'});
     end
     for iGeno = 1:numel(uGenotype)
-        Sgeno = RawData.Genotype == uGenotype(iGeno);
+        Sgeno = SelectData.Genotype == uGenotype(iGeno);
+        S = Sambi & Sgeno;
         deltaX = (iGeno-1).*(xOffset) - xOffset;
-        deltaX = deltaX + rand(sum(Sgeno),1).*(xJitter*2) - xJitter;
-        scatter(x(Sgeno) + deltaX, y(Sgeno),15,'+',...
-            'MarkerEdgeColor',[0.1,0.1,0.1],'MarkerEdgeAlpha',1,'LineWidth',1);
+        deltaX = deltaX + rand(sum(S),1).*(xJitter*2) - xJitter;
+        scatter(SelectData.AgeN(S) + deltaX, SelectData.RT(S),5,'+',...
+            'MarkerEdgeColor','r','MarkerEdgeAlpha',0.2,'LineWidth',1);
     end
     
     %% Appearnece
-    xticklabels(unique(Estimates.Age));
+    xticklabels(unique(SelectData.Age));
     xlabel('Age group','FontSize',18);
-    ax = gca;
-    ax.FontSize = 18;
-    ylim([0.5,1]); %ylim([0,12]);
-    yticks((5:1:10)./10);
+    ax = gca; 
+    ax.FontSize = 18; 
+    ylim([0,72]); %ylim([0,12]);
+    set(gca,'YScale','log');
+    yticks([1,2,4,8,16,32,64]);
     set(gca,'YMinorTick','Off')
     if iPlt == 1
         title('Low ambiguity','FontSize',18);
-        ylabel('Probability of a correct response','FontSize',18);
+        ylabel('Response time (seconds)','FontSize',18);
     else
         title('High ambiguity','FontSize',18);
         legend({'e33','e34','e44'},'FontSize',15,'Location','bestoutside');
