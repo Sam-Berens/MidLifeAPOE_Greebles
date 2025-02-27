@@ -254,15 +254,29 @@ anova_b05f <- comp_baye_cons(h05f, bayes05f)
 
 # --- Contrast matrices for pairwise contrasts ---
 # For model 05f
-c_e34me33 <- t(c(0, 0, 0,  2, 0, 0,  2, 0, 0, 0, 0, 0))
-c_e44me34 <- t(c(0, 0, 0, -2, 2, 0, -2, 2, 0, 0, 0, 0))
-c_e44me33 <- t(c(0, 0, 0,  0, 2, 0,  0, 2, 0, 0, 0, 0))
+c_e34me33 <- t(c(0, 0, 0,  2, 0, 0,  1, 0, 0, 0, 0, 0))
+c_e44me34 <- t(c(0, 0, 0, -2, 2, 0, -1, 1, 0, 0, 0, 0))
+c_e44me33 <- t(c(0, 0, 0,  0, 2, 0,  0, 1, 0, 0, 0, 0))
+
+c_e33_hml <- t(c(0, 1, 0,  0, 0, 0,  0, 0, 0, 0, 0, 0))
+c_e34_hml <- t(c(0, 1, 0,  0, 0, 0,  1, 0, 0, 0, 0, 0))
+c_e44_hml <- t(c(0, 1, 0,  0, 0, 0,  0, 1, 0, 0, 0, 0))
+
+c_e34hml_e33hml <- t(c(0, 0, 0, 0, 0, 0,  1, 0, 0, 0, 0, 0))
+c_e44hml_e34hml <- t(c(0, 0, 0, 0, 0, 0, -1, 1, 0, 0, 0, 0))
+c_e44hml_e33hml <- t(c(0, 0, 0, 0, 0, 0,  0, 1, 0, 0, 0, 0))
 
 # Package
 c05f <- list(
   E34_vs_E33 = c_e34me33,
   E44_vs_E34 = c_e44me34,
-  E44_vs_E33 = c_e44me33
+  E44_vs_E33 = c_e44me33,
+  E33_HmL = c_e33_hml,
+  E34_HmL = c_e34_hml,
+  E44_HmL = c_e44_hml,
+  E34HmL_vs_E33HmL = c_e34hml_e33hml,
+  E44HmL_vs_E34HmL = c_e44hml_e34hml,
+  E44HmL_vs_E33HmL = c_e44hml_e33hml
 )
 
 # --- Run the contrasts ---
